@@ -1,0 +1,82 @@
+{
+  "name": "react-native-ias",
+  "version": "0.0.1",
+  "description": "InAppStory SDK for react native",
+  "main": "react-native-ias.cjs.js",
+  "module": "react-native-ias.mjs",
+  "types": "types/index.d.ts",
+  "dependencies": {
+    "effector": "^22.1.2",
+    "react-native-webview": "^11.6.2",
+    "react-native-get-random-values": "^1.7.2",
+    "react-native-device-info": "^8.4.8",
+    "@react-native-async-storage/async-storage": "^1.15.14"
+  },
+  "nativeDependencies": [
+    "react-native-webview",
+    "react-native-get-random-values",
+    "react-native-device-info",
+    "@react-native-async-storage/async-storage"
+  ],
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "exports": {
+    ".": {
+      "import": "./react-native-ias.mjs",
+      "require": "./react-native-ias.cjs.js",
+      "default": "./react-native-ias.mjs"
+    },
+    "./react-native-ias.mjs": "./react-native-ias.mjs",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "README.md",
+    "LICENSE",
+    "react-native-ias.mjs",
+    "react-native-ias.mjs.map",
+    "react-native-ias.cjs.js",
+    "react-native-ias.cjs.js.map",
+    "types"
+  ],
+  "keywords": [
+    "state management",
+    "state manager",
+    "algebraic effects",
+    "model",
+    "reactive",
+    "state",
+    "frp",
+    "event",
+    "effect",
+    "functional",
+    "store"
+  ],
+  "author": "Inappstory",
+  "maintainers": [
+    {
+      "name": "Inappstory",
+      "email": "dev@inappstory.com"
+    }
+  ],
+  "sideEffects": false,
+  "license": "MIT",
+  "devDependencies": {
+    "fs-extra": "^9.1.0",
+    "os": "^0.1.2"
+  },
+  "scripts": {
+    "postinstall": "node ./scripts/add-native-deps"
+  },
+  "repository": "https://github.com/inappstory/react-native-ias",
+  "bugs": "https://github.com/inappstory/react-native-ias/issues",
+  "homepage": "https://inappstory.com",
+  "engines": {
+    "node": ">=11.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "funding": []
+}

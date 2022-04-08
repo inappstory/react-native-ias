@@ -13,7 +13,7 @@ pod install
 ## Usage
 
 1. Register StoryReader at App root
-App entry point
+   App entry point
 ```js
 import {StoryReader, useIas} from "react-native-ias";
 import {createAppearanceManager, createStoryManager} from "./StoriesConfig";

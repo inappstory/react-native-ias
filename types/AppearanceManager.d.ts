@@ -31,8 +31,8 @@ export declare type StoriesListOptions = {
   // setCallback ?
   handleStoryLinkClick?: (payload: StoriesListClickEvent) => void;
 
-  handleStartLoading?: (loaderContainer: HTMLElement) => void;
-  handleStopLoading?: (loaderContainer: HTMLElement) => void;
+  handleStartLoad?: (loaderContainer: HTMLElement) => void;
+  handleStopLoad?: (loaderContainer: HTMLElement) => void;
 
 
   // handleClickOnStory?: (event: StoriesListClickEvent) => void,

@@ -1,7 +1,7 @@
 {
   "name": "react-native-ias",
-  "version": "0.0.1",
-  "description": "InAppStory SDK for react native",
+  "version": "0.1.0",
+  "description": "IAS SDK for react native",
   "main": "react-native-ias.cjs.js",
   "module": "react-native-ias.mjs",
   "types": "types/index.d.ts",
@@ -10,13 +10,15 @@
     "react-native-webview": "^11.6.2",
     "react-native-get-random-values": "^1.7.2",
     "react-native-device-info": "^8.4.8",
-    "@react-native-async-storage/async-storage": "^1.15.14"
+    "@react-native-async-storage/async-storage": "^1.15.14",
+    "react-native-share": "^7.3.9"
   },
   "nativeDependencies": [
     "react-native-webview",
     "react-native-get-random-values",
     "react-native-device-info",
-    "@react-native-async-storage/async-storage"
+    "@react-native-async-storage/async-storage",
+    "react-native-share"
   ],
   "peerDependencies": {
     "react": "*",
@@ -41,17 +43,9 @@
     "types"
   ],
   "keywords": [
-    "state management",
-    "state manager",
-    "algebraic effects",
-    "model",
-    "reactive",
-    "state",
-    "frp",
-    "event",
-    "effect",
-    "functional",
-    "store"
+    "stories",
+    "stories SDK",
+    "InAppStory"
   ],
   "author": "Inappstory",
   "maintainers": [

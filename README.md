@@ -10,10 +10,24 @@ cd ios
 pod install
 ```
 
+**Note**: If your application requires the ability to share base64 files on Android (share story as image), you need to add
+```xml
+<!-- required for react-native-share base64 sharing -->
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+```
+to your application's AndroidManifest.xml
+
+
+if > Unable to make field private final java.lang.String java.io.File.path accessible: module java.base does not "opens java.io" to unnamed module @379b3356
+jdk 16, jdk 17
+
+to gradle.properties
+org.gradle.jvmargs=--add-opens java.base/java.io=ALL-UNNAMED 
+
 ## Usage
 
 1. Register StoryReader at App root
-App entry point
+   App entry point
 ```js
 import {StoryReader, useIas} from "react-native-ias";
 import {createAppearanceManager, createStoryManager} from "./StoriesConfig";

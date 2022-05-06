@@ -1,6 +1,6 @@
 {
   "name": "react-native-ias",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "IAS SDK for react native",
   "main": "react-native-ias.cjs.js",
   "module": "react-native-ias.mjs",
@@ -40,7 +40,19 @@
     "react-native-ias.mjs.map",
     "react-native-ias.cjs.js",
     "react-native-ias.cjs.js.map",
-    "types"
+    "react-native-ias.umd.js",
+    "react-native-ias.umd.js.map",
+    "react-native-ias.cjs.d.ts",
+    "react-native-ias.mjs.d.ts",
+    "react-native-ias.umd.d.ts",
+    "StoriesListClient.js",
+    "StoriesListClient.css.js",
+    "StoryReaderClient.js",
+    "StoryReaderClient.css.js",
+    "StoryFavoriteReaderClient.js",
+    "StoryFavoriteReaderClient.css.js",
+    "types",
+    "scripts"
   ],
   "keywords": [
     "stories",

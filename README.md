@@ -17,13 +17,6 @@ pod install
 ```
 to your application's AndroidManifest.xml
 
-
-if > Unable to make field private final java.lang.String java.io.File.path accessible: module java.base does not "opens java.io" to unnamed module @379b3356
-jdk 16, jdk 17
-
-to gradle.properties
-org.gradle.jvmargs=--add-opens java.base/java.io=ALL-UNNAMED 
-
 ## Usage
 
 1. Register StoryReader at App root

@@ -44,7 +44,12 @@ export default function App() {
 2. Write sdk config (in file StoriesConfig for example)
 
 ```js
-import * as IAS from "packages/react-native-ias/index";
+import {
+    AppearanceManager,
+    StoriesListCardViewVariant,
+    StoryManager,
+    StoryReaderCloseButtonPosition, StoryReaderSwipeStyle
+} from "react-native-ias";
 
 const storyManagerConfig = {
     apiKey: "{projectToken}",
@@ -56,10 +61,10 @@ const storyManagerConfig = {
     lang: "en",
 };
 
-export const createStoryManager = () => new IAS.StoryManager(storyManagerConfig);
+export const createStoryManager = () => new StoryManager(storyManagerConfig);
 
 export const createAppearanceManager = () => {
-    return new IAS.AppearanceManager().setCommonOptions({
+    return new AppearanceManager().setCommonOptions({
         hasLike: true,
         hasFavorite: true
     }).setStoriesListOptions({
@@ -77,7 +82,7 @@ export const createAppearanceManager = () => {
             },
             gap: 10,
             height: 100,
-            variant: 'quad',
+            variant: StoriesListCardViewVariant.QUAD,
             border: {
                 radius: 20,
                 color: 'blue',
@@ -111,7 +116,7 @@ export const createAppearanceManager = () => {
         sidePadding: 20,
         topPadding: 20,
         bottomPadding: 20,
-        bottomMargin: 17,
+        bottomMargin: 0,
         navigation: {
             showControls: false,
             controlsSize: 48,
@@ -119,8 +124,8 @@ export const createAppearanceManager = () => {
             controlsColor: 'black'
         },
     }).setStoryReaderOptions({
-        closeButtonPosition: 'right',
-        scrollStyle: 'flat',
+        closeButtonPosition: StoryReaderCloseButtonPosition.RIGHT,
+        scrollStyle: StoryReaderSwipeStyle.FLAT,
     }).setStoryFavoriteReaderOptions({
         title: {
             content: 'Favorite'
@@ -132,14 +137,171 @@ export const createAppearanceManager = () => {
 
 3. Register StoriesList component at Screen with stories
 
-```js
+```ts
 import {createAppearanceManager, createStoryManager} from "../StoriesConfig";
-import {StoriesList, useIas} from "packages/react-native-ias/index";
+import {StoriesList, useIas} from "react-native-ias";
+
+type ListLoadStatus = {
+    feed: string|number,
+    defaultListLength: number,
+    favoriteListLength: number,
+    success: boolean,
+    error: Option<{
+        name: string,
+        networkStatus: number,
+        networkMessage: string
+    }>
+};
 
 export function StoryListScreen() {
     const {storyManager, appearanceManager} = useIas(createStoryManager, createAppearanceManager);
-    return <StoriesList storyManager={storyManager} appearanceManager={appearanceManager}/>;
+    const onLoadEnd = (listLoadStatus: ListLoadStatus) => {console.log({listLoadStatus})};
+    return <StoriesList storyManager={storyManager} appearanceManager={appearanceManager} feed="default" onLoadEnd={onLoadEnd} />;
 }
+
+```
+
+### Example - component with skeleton loader for StoriesList
+```ts
+import {StyleSheet, View, Animated} from "react-native";
+import React, {useEffect, useRef, useState} from "react";
+import {createAppearanceManager, createStoryManager} from "../StoriesConfig";
+import {StoriesList, useIas, ListLoadStatus} from "react-native-ias";
+import ContentLoader, { Rect } from "react-content-loader/native";
+import { Dimensions } from 'react-native';
+
+const windowWidth = Dimensions.get('window').width;
+
+enum LoadStatus {
+    loading = "Loading",
+    success = "LoadSuccess",
+    fail = "LoadFail"
+}
+
+/**
+ * DEPS
+ * npm i react-content-loader react-native-svg --save
+ */
+
+export function StoryListComponent() {
+
+    const feedId = "default";
+
+    const [loadStatus, setLoadStatus] = useState<LoadStatus>(LoadStatus.loading);
+
+    const loadStartAtRef = useRef(new Date().getTime());
+
+    const fallbackTimer = useRef(null as unknown as number);
+
+    useEffect(() => {
+        fallbackTimer.current = setTimeout(() => {
+            onLoadEnd({defaultListLength: 0, favoriteListLength: 0, success: false, feed: feedId, error: null});
+        }, 10000);
+        return () => {
+            fallbackTimer.current && clearTimeout(fallbackTimer.current);
+        }
+    }, []);
+
+    const onLoadEnd = (listLoadStatus: ListLoadStatus) => {
+        const minTime = 500;
+        const now = new Date().getTime();
+        const diff = Math.max(0, minTime - (now - loadStartAtRef.current));
+
+        setTimeout(() => {
+            if (listLoadStatus.defaultListLength > 0 || listLoadStatus.favoriteListLength > 0) {
+                setLoadStatus(LoadStatus.success);
+            } else {
+                setLoadStatus(LoadStatus.fail);
+            }
+
+            fallbackTimer.current && clearTimeout(fallbackTimer.current);
+
+            if (listLoadStatus.error != null) {
+                console.log({name: listLoadStatus.error.name, networkStatus: listLoadStatus.error.networkStatus});
+            }
+        }, diff);
+
+    }
+
+    return (
+        <View style={[styles.storyListContainer, loadStatus === LoadStatus.fail ? {display: "none"} : null]}>
+            <AnimatedStoryList loadStatus={loadStatus} feedId={feedId} onLoadEnd={onLoadEnd}/>
+            <StoryListLoader loadStatus={loadStatus}/>
+        </View>
+    );
+
+}
+
+const styles = StyleSheet.create({
+    storyListContainer: {position: "relative", width: "100%", height: 140},
+    storyList: {flex: 1, width: "100%", position: "absolute", top: 0, left: 0},
+    storyLoader: {width: "100%", height: 140, paddingVertical: 20, paddingLeft: 20, paddingRight: 0, backgroundColor: "transparent", position: "absolute", top: 0, left: 0}
+
+});
+
+const StoryListLoader = ({loadStatus}: {loadStatus: LoadStatus}) => {
+
+    const fadeAnim = useRef(new Animated.Value(1)).current;  // Initial value for opacity: 1
+
+    useEffect(() => {
+        if (loadStatus === LoadStatus.success) {
+            Animated.timing(
+                fadeAnim,
+                {
+                    toValue: 0,
+                    duration: 250,
+                    useNativeDriver: true
+                }
+            ).start();
+        }
+    }, [loadStatus]);
+
+    // 20 - paddingLeft, 10 - gap between cards, 100x100 - card size, rx=20 ry=20 - card borderRadius
+   return ( <Animated.View  style={{...styles.storyLoader, opacity: fadeAnim}} pointerEvents="none">
+        <ContentLoader
+            width={windowWidth - 20}
+            height={100}
+            viewBox={`0 0 ${windowWidth - 20} 100`}
+            speed={1}
+            backgroundColor="#ffffff"
+            foregroundColor="#777777"
+        >
+            <Rect x="0" y="0" rx="20" ry="20" width="100" height="100"/>
+            <Rect x="110" y="0" rx="20" ry="20" width="100" height="100"/>
+            <Rect x="220" y="0" rx="20" ry="20" width="100" height="100"/>
+            <Rect x="330" y="0" rx="20" ry="20" width="100" height="100"/>
+
+        </ContentLoader>
+    </Animated.View>)
+
+};
+
+const AnimatedStoryList = ({loadStatus, feedId, onLoadEnd}: {loadStatus: LoadStatus, feedId: string, onLoadEnd: (listLoadStatus: ListLoadStatus) => void}) => {
+
+    const {storyManager, appearanceManager} = useIas(createStoryManager, createAppearanceManager);
+
+    const fadeAnim = useRef(new Animated.Value(0)).current;  // Initial value for opacity: 0
+
+    useEffect(() => {
+        if (loadStatus === LoadStatus.success) {
+            Animated.timing(
+                fadeAnim,
+                {
+                    toValue: 1,
+                    duration: 250,
+                    useNativeDriver: true
+                }
+            ).start();
+        }
+    }, [loadStatus]);
+
+    return (
+        <Animated.View style={{...styles.storyList, opacity: fadeAnim}}>
+            <StoriesList storyManager={storyManager} appearanceManager={appearanceManager} feed={feedId}
+                         onLoadEnd={onLoadEnd}/>
+        </Animated.View>
+    );
+};
 
 ```
 

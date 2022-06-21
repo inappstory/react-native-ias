@@ -21,124 +21,124 @@ to your application's AndroidManifest.xml
 
 1. Register StoryReader at App root
    App entry point
+
 ```js
-import {StoryReader, useIas} from "react-native-ias";
+import {StoryReader, useIas} from "packages/react-native-ias/index";
 import {createAppearanceManager, createStoryManager} from "./StoriesConfig";
 
 export default function App() {
 
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Main" component={MainScreen}/>
-      </Stack.Navigator>
+    return (
+        <NavigationContainer>
+            <Stack.Navigator>
+                <Stack.Screen name="Main" component={MainScreen}/>
+            </Stack.Navigator>
 
-      <StoryReader storyManager={useIas(createStoryManager, createAppearanceManager).storyManager}/>
+            <StoryReader storyManager={useIas(createStoryManager, createAppearanceManager).storyManager}/>
 
-    </NavigationContainer>
-  );
+        </NavigationContainer>
+    );
 }
 ```
 
 2. Write sdk config (in file StoriesConfig for example)
+
 ```js
-import * as IAS from "react-native-ias";
+import * as IAS from "packages/react-native-ias/index";
 
 const storyManagerConfig = {
-  apiKey: "{projectToken}",
-  userId: "123456",
-  tags: [],
-  placeholders: {
-    user: "Guest"
-  },
-  lang: "en",
+    apiKey: "{projectToken}",
+    userId: "123456",
+    tags: [],
+    placeholders: {
+        user: "Guest"
+    },
+    lang: "en",
 };
 
 export const createStoryManager = () => new IAS.StoryManager(storyManagerConfig);
 
 export const createAppearanceManager = () => {
-  return new IAS.AppearanceManager()
-    .setCommonOptions({
-      hasLike: true,
-      hasFavorite: true
-    })
-    .setStoriesListOptions({
-      title: {
-        content: '',
-        color: '#000',
-        font: 'normal',
-        marginBottom: 20,
-      },
-      card: {
+    return new IAS.AppearanceManager().setCommonOptions({
+        hasLike: true,
+        hasFavorite: true
+    }).setStoriesListOptions({
         title: {
-          color: 'black',
-          font: '14px/16px "InternalPrimary"',
-          padding: 8
+            content: '',
+            color: '#000',
+            font: 'normal',
+            marginBottom: 20,
         },
-        gap: 10,
-        height: 100,
-        variant: 'quad',
-        border: {
-          radius: 20,
-          color: 'blue',
-          width: 2,
-          gap: 3,
+        card: {
+            title: {
+                color: 'black',
+                font: '14px/16px "InternalPrimary"',
+                padding: 8
+            },
+            gap: 10,
+            height: 100,
+            variant: 'quad',
+            border: {
+                radius: 20,
+                color: 'blue',
+                width: 2,
+                gap: 3,
+            },
+            boxShadow: null,
+            opacity: 1,
+            mask: {
+                color: 'rgba(34, 34, 34, 0.3)'
+            },
+            opened: {
+                border: {
+                    radius: null,
+                    color: 'red',
+                    width: null,
+                    gap: null,
+                },
+                boxShadow: null,
+                opacity: null,
+                mask: {
+                    color: 'rgba(34, 34, 34, 0.1)'
+                },
+            },
         },
-        boxShadow: null,
-        opacity: 1,
-        mask: {
-          color: 'rgba(34, 34, 34, 0.3)'
+        favoriteCard: {},
+        layout: {
+            height: 0,
+            backgroundColor: 'transparent'
         },
-        opened: {
-          border: {
-            radius: null,
-            color: 'red',
-            width: null,
-            gap: null,
-          },
-          boxShadow: null,
-          opacity: null,
-          mask: {
-            color: 'rgba(34, 34, 34, 0.1)'
-          },
+        sidePadding: 20,
+        topPadding: 20,
+        bottomPadding: 20,
+        bottomMargin: 17,
+        navigation: {
+            showControls: false,
+            controlsSize: 48,
+            controlsBackgroundColor: 'white',
+            controlsColor: 'black'
         },
-      },
-      favoriteCard: {},
-      layout: {
-        height: 0,
-        backgroundColor: 'transparent'
-      },
-      sidePadding: 20,
-      topPadding: 20,
-      bottomPadding: 20,
-      bottomMargin: 17,
-      navigation: {
-        showControls: false,
-        controlsSize: 48,
-        controlsBackgroundColor: 'white',
-        controlsColor: 'black'
-      },
-    })
-    .setStoryReaderOptions({
-      closeButtonPosition: 'right',
-      scrollStyle: 'flat',
+    }).setStoryReaderOptions({
+        closeButtonPosition: 'right',
+        scrollStyle: 'flat',
     }).setStoryFavoriteReaderOptions({
-      title: {
-        content: 'Favorite'
-      }
+        title: {
+            content: 'Favorite'
+        }
     })
 };
 
 ```
 
 3. Register StoriesList component at Screen with stories
+
 ```js
 import {createAppearanceManager, createStoryManager} from "../StoriesConfig";
-import {StoriesList, useIas} from "react-native-ias";
+import {StoriesList, useIas} from "packages/react-native-ias/index";
 
 export function StoryListScreen() {
-  const {storyManager, appearanceManager} = useIas(createStoryManager, createAppearanceManager);
-  return <StoriesList storyManager={storyManager} appearanceManager={appearanceManager} />;
+    const {storyManager, appearanceManager} = useIas(createStoryManager, createAppearanceManager);
+    return <StoriesList storyManager={storyManager} appearanceManager={appearanceManager}/>;
 }
 
 ```
@@ -205,25 +205,25 @@ storyManager.on("clickOnStoryLink", payload => {
 
 
 ### Show single story example
+
 ```js
 
-import {StoryReader, useIas} from "react-native-ias";
+import {StoryReader, useIas} from "packages/react-native-ias/index";
 import {createAppearanceManager, createStoryManager} from "./StoriesConfig";
 
 const {storyManager, appearanceManager} = useIas(createStoryManager, createAppearanceManager);
 
 // appearance config
 appearanceManager.setCommonOptions({
-  hasLike: true,
-  hasFavorite: true
-})
-  .setStoryReaderOptions({
+    hasLike: true,
+    hasFavorite: true
+}).setStoryReaderOptions({
     closeButtonPosition: 'right',
     scrollStyle: 'flat',
-  });
+});
 
 storyManager.showStory(125, appearanceManager).then(result => {
-  console.log({showStoryResult: result});
+    console.log({showStoryResult: result});
 });
 
 ```
@@ -331,8 +331,9 @@ By default, controls are round buttons with arrow icons at the edges of the slid
 ## Events
 
 You can subscribe to events after creating the widget instance
+
 ```js
-import {useIas} from "react-native-ias";
+import {useIas} from "packages/react-native-ias/index";
 import {createAppearanceManager, createStoryManager} from "./StoriesConfig";
 
 const {storyManager} = useIas(createStoryManager, createAppearanceManager);

@@ -104,8 +104,8 @@ export declare type StoriesListClickEvent = {
 };
 
 export declare enum StoriesListEvents {
-  START_LOADER = 'startLoader',
-  END_LOADER = 'endLoader',
+  START_LOADER = 'startLoad',
+  END_LOADER = 'endLoad',
 }
 
 export declare type StoryFavoriteReaderOptions = {

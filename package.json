@@ -1,10 +1,10 @@
 {
   "name": "react-native-ias",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "IAS SDK for react native",
   "main": "react-native-ias.cjs.js",
   "module": "react-native-ias.mjs",
-  "types": "types/index.d.ts",
+  "types": "index.d.ts",
   "dependencies": {
     "effector": "^22.1.2",
     "react-native-webview": "^11.6.2",
@@ -31,7 +31,8 @@
       "default": "./react-native-ias.mjs"
     },
     "./react-native-ias.mjs": "./react-native-ias.mjs",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./index.d.ts": "./index.d.ts"
   },
   "files": [
     "README.md",
@@ -59,8 +60,8 @@
     "StoryReaderClient.css.js",
     "StoryFavoriteReaderClient.js",
     "StoryFavoriteReaderClient.css.js",
-    "types",
-    "scripts"
+    "scripts",
+    "index.d.ts"
   ],
   "keywords": [
     "stories",

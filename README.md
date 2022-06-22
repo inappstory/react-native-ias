@@ -2,6 +2,9 @@
 
 SDK for [InAppStory](https://inappstory.com)
 
+## Sample project
+[Repository](https://github.com/inappstory/RNIasDemo)
+
 ## Installation
 
 ```bash

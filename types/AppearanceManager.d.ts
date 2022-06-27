@@ -68,10 +68,18 @@ export declare type StoriesListCardOptions = {
     gap: number;
   };
   boxShadow: Option<string>;
+    dropShadow?: Option<string>;
   opacity: Option<number>;
   mask: {
     color: Option<string>;
   };
+    svgMask?: Option<{
+        cardMask: Option<string>;
+        overlayMask: Array<{
+            mask: Option<string>;
+            background: Option<string>;
+        }>;
+    }>;
   opened: {
     border: {
       radius: Option<number>;
@@ -80,10 +88,18 @@ export declare type StoriesListCardOptions = {
       gap: Option<number>;
     };
     boxShadow: Option<string>;
+      dropShadow?: Option<string>;
     opacity: Option<number>;
     mask: {
       color: Option<string>;
     };
+      svgMask?: Option<{
+          cardMask: Option<string>;
+          overlayMask: Array<{
+              mask: Option<string>;
+              background: Option<string>;
+          }>;
+      }>;
   };
 }
 

@@ -335,6 +335,18 @@ type StoryManagerCallbacks = {
   storyLinkClickHandler: (payload: StoryManagerCallbackPayload<{id: number, index: number, url: string}>) => void;
 };
 
+type OnboardingLoadStatus = {
+    feed: string|number,
+    defaultListLength: number,
+    favoriteListLength: number,
+    success: boolean,
+    error: Option<{
+        name: string,
+        networkStatus: number,
+        networkMessage: string
+    }>
+};
+
 interface StoryManager {
   (config: StoryManagerConfig, callbacks?: StoryManagerCallbacks): StoryManager;
   getInstance(): StoryManager; // static
@@ -342,9 +354,9 @@ interface StoryManager {
   setUserId(userId: string | number): void;
   setLang(lang: string): void;
   setPlaceholders(placeholders: Dict<string>): void;
-  showStory(id: number | string, appearanceManager: AppearanceManager): Promise<boolean>;
+  showStory(id: number | string, appearanceManager: AppearanceManager): Promise<{loaded: boolean}>;
   closeStoryReader(): void;
-  showOnboardingStories(appearanceManager: AppearanceManager, customTags?: Array<string>): Promise<boolean>;
+  showOnboardingStories(appearanceManager: AppearanceManager, customTags?: Array<string>): Promise<OnboardingLoadStatus>;
   
   // callbaks
   set storyLinkClickHandler(payload: StoryManagerCallbackPayload<{id: number, index: number, url: string}>);
@@ -377,6 +389,7 @@ storyManager.on("clickOnStoryLink", payload => {
 
 import {StoryReader, useIas} from "packages/react-native-ias/index";
 import {createAppearanceManager, createStoryManager} from "./StoriesConfig";
+import Toast from 'react-native-simple-toast';
 
 const {storyManager, appearanceManager} = useIas(createStoryManager, createAppearanceManager);
 
@@ -389,8 +402,55 @@ appearanceManager.setCommonOptions({
     scrollStyle: 'flat',
 });
 
-storyManager.showStory(125, appearanceManager).then(result => {
-    console.log({showStoryResult: result});
+storyManager.showStory(125, appearanceManager).then(res => {
+    console.log({res});
+    if (res.loaded === false) {
+        Toast.show('Failed to load story');
+    }
+});
+
+```
+
+### Show onboarding example
+
+```ts
+
+import {StoryReader, useIas} from "packages/react-native-ias/index";
+import {createAppearanceManager, createStoryManager} from "./StoriesConfig";
+
+const {storyManager, appearanceManager} = useIas(createStoryManager, createAppearanceManager);
+
+type OnboardingLoadStatus = {
+    feed: string|number,
+    defaultListLength: number,
+    favoriteListLength: number,
+    success: boolean,
+    error: Option<{
+        name: string,
+        networkStatus: number,
+        networkMessage: string
+    }>
+};
+
+
+// appearance config
+appearanceManager.setCommonOptions({
+    hasLike: true,
+    hasFavorite: true
+}).setStoryReaderOptions({
+    closeButtonPosition: 'right',
+    scrollStyle: 'flat',
+});
+
+storyManager.showOnboardingStories(appearanceManager)
+.then((res: OnboardingLoadStatus) => {
+    let onboardingOpened = false;
+    if (!res.success && res.defaultListLength > 0) {
+        onboardingOpened = true;
+    }
+    
+    console.log({onboardingOpened});
+    
 });
 
 ```

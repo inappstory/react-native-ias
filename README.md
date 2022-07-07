@@ -445,7 +445,7 @@ appearanceManager.setCommonOptions({
 storyManager.showOnboardingStories(appearanceManager)
 .then((res: OnboardingLoadStatus) => {
     let onboardingOpened = false;
-    if (!res.success && res.defaultListLength > 0) {
+    if (res.success && res.defaultListLength > 0) {
         onboardingOpened = true;
     }
     

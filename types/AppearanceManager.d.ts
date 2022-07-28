@@ -127,6 +127,8 @@ export declare enum StoriesListEvents {
 export declare type StoryFavoriteReaderOptions = {
   title?: {
     content: string;
+      font: string;
+      color: string;
   }
 };
 

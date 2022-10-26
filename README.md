@@ -613,16 +613,17 @@ const {storyManager} = useIas(createStoryManager, createAppearanceManager);
 storyManager.on('clickOnStory', payload => console.log(payload));
 ```
 
-| Name | Payload | Description |
-|----------|------|-------------|
-| clickOnStory       | {id: number, index: number, isDeeplink: boolean, url?: string} | Click on story card from slider list |
-| showStory          | {id: number } | Show story (from slider or reader) |
-| closeStory         | {id: number } | Close story (from reader - transition from story or click on close) |
-| showSlide          | {id: number, index: number } | Show slide |
-| clickOnButton      | {id: number, index: number, url: string } | Click on button with external link |
-| likeStory          | {id: number, value: boolean } | Click to set (value=true) or unset (value=false) story like |
-| dislikeStory       | {id: number, value: boolean } | Click to set (value=true) or unset (value=false) story dislike |
-| favoriteStory      | {id: number, value: boolean } | Click to set (value=true) or unset (value=false) story dislike |
-| shareStory         | {id: number } | Click on story sharing |
-| shareStoryWithPath | {id: number, url: string } | Event after successful creation of the sharing path |
+| Name                | Payload                                                        | Description                                                         |
+|---------------------|----------------------------------------------------------------|---------------------------------------------------------------------|
+| clickOnStory        | {id: number, index: number, isDeeplink: boolean, url?: string} | Click on story card from slider list                                |
+| clickOnFavoriteCell | {feed: string }                                                | Click on story favorite card from slider list                       |
+| showStory           | {id: number }                                                  | Show story (from slider or reader)                                  |
+| closeStory          | {id: number }                                                  | Close story (from reader - transition from story or click on close) |
+| showSlide           | {id: number, index: number }                                   | Show slide                                                          |
+| clickOnButton       | {id: number, index: number, url: string }                      | Click on button with external link                                  |
+| likeStory           | {id: number, value: boolean }                                  | Click to set (value=true) or unset (value=false) story like         |
+| dislikeStory        | {id: number, value: boolean }                                  | Click to set (value=true) or unset (value=false) story dislike      |
+| favoriteStory       | {id: number, value: boolean }                                  | Click to set (value=true) or unset (value=false) story dislike      |
+| shareStory          | {id: number }                                                  | Click on story sharing                                              |
+| shareStoryWithPath  | {id: number, url: string }                                     | Event after successful creation of the sharing path                 |
 

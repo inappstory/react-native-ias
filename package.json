@@ -1,6 +1,6 @@
 {
   "name": "react-native-ias",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "description": "IAS SDK for react native",
   "main": "react-native-ias.cjs.js",
   "module": "react-native-ias.mjs",
@@ -15,7 +15,8 @@
     "react-native-get-random-values": ">=1.0.0",
     "react-native-device-info": ">=9.0.0",
     "@react-native-async-storage/async-storage": ">=1.0.0",
-    "react-native-share": ">=7.0.0"
+    "react-native-share": ">=7.0.0",
+    "react-native-android-keyboard-adjust": ">=1.2.0"
   },
   "exports": {
     ".": {

@@ -10,7 +10,7 @@ SDK for [InAppStory](https://inappstory.com)
 Precondition RN 0.64+
 
 ```bash
-npm install --save react-native-ias react-native-webview@">=11.0.0" react-native-get-random-values@">=1.0.0" react-native-device-info@">=9.0.0" @react-native-async-storage/async-storage@">=1.0.0" react-native-share@">=7.0.0"
+npm install --save react-native-ias react-native-webview@">=11.0.0" react-native-get-random-values@">=1.0.0" react-native-device-info@">=9.0.0" @react-native-async-storage/async-storage@">=1.0.0" react-native-share@">=7.0.0" rn-android-keyboard-adjust@">=2.1.1"
 cd ios
 pod install
 ```
@@ -53,7 +53,8 @@ import {
     AppearanceManager,
     StoriesListCardViewVariant,
     StoryManager,
-    StoryReaderCloseButtonPosition, StoryReaderSwipeStyle
+    StoryReaderCloseButtonPosition, StoryReaderSwipeStyle,
+    AndroidDefaultWindowSoftInputMode
 } from "react-native-ias";
 
 const storyManagerConfig = {
@@ -66,7 +67,14 @@ const storyManagerConfig = {
     lang: "en",
 };
 
-export const createStoryManager = () => new StoryManager(storyManagerConfig);
+export const createStoryManager = () => {
+    const manager = new StoryManager(storyManagerConfig);
+    // set default windowSoftInputMode (valid only on Android) for App
+    // SDK changes windowSoftInputMode to work with keyboard
+    // and will set windowSoftInputMode back to androidDefaultWindowSoftInputMode when closing the story reader
+    manager.androidDefaultWindowSoftInputMode = AndroidDefaultWindowSoftInputMode.AdjustResize;
+    return manager;
+};
 
 export const createAppearanceManager = () => {
     return new AppearanceManager().setCommonOptions({

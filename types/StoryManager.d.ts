@@ -22,10 +22,24 @@ export declare type OnboardingLoadStatus = {
     }>
 };
 
+export enum AndroidWindowSoftInputMode {
+    AdjustNothing = 'AdjustNothing',
+    AdjustPan = 'AdjustPan',
+    AdjustResize = 'AdjustResize',
+    AdjustUnspecified = 'AdjustUnspecified',
+    AlwaysHidden = 'AlwaysHidden',
+    AlwaysVisible = 'AlwaysVisible',
+    Visible = 'Visible',
+    Hidden = 'Hidden',
+    Unchanged = 'Unchanged',
+}
+
+
 declare class StoryManager extends EventEmitter {
   constructor(config: StoryManagerConfig);
   showStory(storyId: number|string, appearanceManager: AppearanceManager): Promise<{loaded: boolean}>;
   showOnboardingStories(appearanceManager: AppearanceManager, customTags?: Array<string>): Promise<OnboardingLoadStatus>;
+  set androidDefaultWindowSoftInputMode(mode: AndroidWindowSoftInputMode);
 }
 
 export default StoryManager;

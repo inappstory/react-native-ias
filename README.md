@@ -357,13 +357,13 @@ type OnboardingLoadStatus = {
 
 interface StoryManager {
   (config: StoryManagerConfig, callbacks?: StoryManagerCallbacks): StoryManager;
-  getInstance(): StoryManager; // static
+  getInstance(): StoryManager; // static, throw Error if StoryManager constructor not called
   setTags(tags: Array<string>): void;
   setUserId(userId: string | number): void;
   setLang(lang: string): void;
   setPlaceholders(placeholders: Dict<string>): void;
   showStory(id: number | string, appearanceManager: AppearanceManager): Promise<{loaded: boolean}>;
-  closeStoryReader(): void;
+  closeStoryReader(): Promise<void>;
   showOnboardingStories(appearanceManager: AppearanceManager, customTags?: Array<string>): Promise<OnboardingLoadStatus>;
   
   // callbaks

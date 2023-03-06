@@ -1,6 +1,7 @@
 import {Option} from "./types";
 import EventEmitter from "./EventEmitter";
 import AppearanceManager from "./AppearanceManager";
+import {Dict} from "../../../global.h";
 
 export declare type StoryManagerConfig = {
   apiKey: string;
@@ -37,9 +38,18 @@ export enum AndroidWindowSoftInputMode {
 
 declare class StoryManager extends EventEmitter {
   constructor(config: StoryManagerConfig);
+  static getInstance(): StoryManager;
   showStory(storyId: number|string, appearanceManager: AppearanceManager): Promise<{loaded: boolean}>;
+  closeStoryReader(): Promise<void>;
   showOnboardingStories(appearanceManager: AppearanceManager, customTags?: Array<string>): Promise<OnboardingLoadStatus>;
   set androidDefaultWindowSoftInputMode(mode: AndroidWindowSoftInputMode);
+
+  setTags(tags: Array<string>): void;
+  setUserId(userId: string | number): void;
+  setPlaceholders(placeholders: Dict<string>): void;
+  setLang(lang: string): void;
+
+
 }
 
 export default StoryManager;

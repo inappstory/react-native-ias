@@ -8,7 +8,7 @@ export {default as AppearanceManager} from './types/AppearanceManager';
 export {default as useIas} from './types/useIas';
 
 export {
-    StoriesListCardViewVariant, StoriesListEvents, StoryReaderCloseButtonPosition, StoryReaderSwipeStyle
+    StoriesListCardViewVariant, StoriesListEvents, StoryReaderCloseButtonPosition, StoryReaderSwipeStyle, StoriesListSliderAlign, StoriesListCardTitleTextAlign, StoriesListCardTitlePosition
 } from './types/AppearanceManager';
 
 export {Option} from "./types/types";

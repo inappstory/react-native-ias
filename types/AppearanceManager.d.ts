@@ -13,6 +13,7 @@ export declare type StoriesListOptions = {
   layout: {
     height: number;
     backgroundColor: string;
+      sliderAlign: StoriesListSliderAlign;
   };
   sidePadding: number;
   topPadding: number;
@@ -52,11 +53,33 @@ export declare enum StoriesListCardViewVariant {
   RECTANGLE = 'rectangle'
 }
 
+export declare enum StoriesListSliderAlign {
+    CENTER = "center",
+    LEFT = "left",
+    RIGHT = "right"
+}
+
+export declare enum StoriesListCardTitleTextAlign {
+    LEFT = 'left',
+    CENTER = 'center',
+    RIGHT = 'right'
+}
+
+export declare enum StoriesListCardTitlePosition {
+    CARD_INSIDE_BOTTOM = 'cardInsideBottom',
+    CARD_OUTSIDE_TOP = 'cardOutsideTop',
+    CARD_OUTSIDE_BOTTOM = 'cardOutsideBottom'
+}
+
 export declare type StoriesListCardOptions = {
   title: {
     color: string;
     padding: string | number;
     font: string;
+      display: boolean;
+      textAlign: StoriesListCardTitleTextAlign;
+      position: StoriesListCardTitlePosition;
+      lineClamp: number;
   };
   gap: number;
   height: number;

@@ -5,6 +5,14 @@ SDK for [InAppStory](https://inappstory.com)
 ## Sample project
 [Repository](https://github.com/inappstory/RNIasDemo)
 
+## Migration guide from 0.2.21 to 0.2.22
+The signature of storyManager.showOnboardingStories method has changed
+0.2.21 version - showOnboardingStories(appearanceManager: AppearanceManager, customTags?: string);
+0.2.22 version - showOnboardingStories(appearanceManager: AppearanceManager, options?: {feed?: string, customTags?: string, limit?: Option<number>});
+
+
+
+
 ## Installation
 
 Precondition RN 0.64+
@@ -364,7 +372,7 @@ interface StoryManager {
   setPlaceholders(placeholders: Dict<string>): void;
   showStory(id: number | string, appearanceManager: AppearanceManager): Promise<{loaded: boolean}>;
   closeStoryReader(): Promise<void>;
-  showOnboardingStories(appearanceManager: AppearanceManager, customTags?: Array<string>): Promise<OnboardingLoadStatus>;
+  showOnboardingStories(appearanceManager: AppearanceManager, options?: {feed?: Option<string>, customTags?: Array<string>, limit?: Option<number>}): Promise<OnboardingLoadStatus>;
   
   // callbaks
   set storyLinkClickHandler(payload: StoryManagerCallbackPayload<{id: number, index: number, url: string}>);
@@ -450,7 +458,7 @@ appearanceManager.setCommonOptions({
     scrollStyle: 'flat',
 });
 
-storyManager.showOnboardingStories(appearanceManager)
+storyManager.showOnboardingStories(appearanceManager, {feed: "specialOnboarding"})
 .then((res: OnboardingLoadStatus) => {
     let onboardingOpened = false;
     if (res.success && res.defaultListLength > 0) {

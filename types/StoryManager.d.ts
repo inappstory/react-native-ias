@@ -41,7 +41,7 @@ declare class StoryManager extends EventEmitter {
   static getInstance(): StoryManager;
   showStory(storyId: number|string, appearanceManager: AppearanceManager): Promise<{loaded: boolean}>;
   closeStoryReader(): Promise<void>;
-  showOnboardingStories(appearanceManager: AppearanceManager, customTags?: Array<string>): Promise<OnboardingLoadStatus>;
+  showOnboardingStories(appearanceManager: AppearanceManager, options?: {feed?: Option<string>, customTags?: Array<string>, limit?: Option<number>}): Promise<OnboardingLoadStatus>;
   set androidDefaultWindowSoftInputMode(mode: AndroidWindowSoftInputMode);
 
   setTags(tags: Array<string>): void;

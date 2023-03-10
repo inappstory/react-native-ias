@@ -7,7 +7,8 @@ declare type Props = {
     storyManager: StoryManager,
     appearanceManager: AppearanceManager,
     feed?: string,
-    onLoadEnd?: (listLoadStatus: ListLoadStatus) => void
+    onLoadEnd?: (listLoadStatus: ListLoadStatus) => void,
+    testKey?: string,
 };
 
 export type ListLoadStatus = {

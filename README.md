@@ -182,6 +182,21 @@ export function StoryListScreen() {
 
 ```
 
+### Example - StoriesList with testKey
+
+Use the key for seeing Stories with status "Moderation"
+The value of the key is stored in the IAS [console](https://console.inappstory.com)
+
+```ts
+import {createAppearanceManager, createStoryManager} from "../StoriesConfig";
+import {StoriesList, useIas} from "react-native-ias";
+
+export function StoryListScreen() {
+    const {storyManager, appearanceManager} = useIas(createStoryManager, createAppearanceManager);
+    return <StoriesList storyManager={storyManager} appearanceManager={appearanceManager} feed="default" testKey="moderationTestKey" />;
+}
+```
+
 ### Example - component with skeleton loader for StoriesList
 ```ts
 import {StyleSheet, View, Animated} from "react-native";

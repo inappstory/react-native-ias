@@ -184,6 +184,7 @@ export function StoryListScreen() {
 
 ### Example - StoriesList with testKey
 
+Since v0.2.24
 Use the key for seeing Stories with status "Moderation"
 The value of the key is stored in the IAS [console](https://console.inappstory.com)
 

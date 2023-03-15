@@ -179,6 +179,40 @@ export declare type StoryReaderOptions = {
   },
   recycleStoriesList?: boolean,
   closeOnLastSlideByTimer?: boolean,
+    closeButton: {
+        svgSrc: {
+            baseState: string
+        }
+    },
+    likeButton: {
+        svgSrc: {
+            baseState: string,
+            activeState: string,
+        }
+    },
+    dislikeButton: {
+        svgSrc: {
+            baseState: string,
+            activeState: string,
+        }
+    },
+    favoriteButton: {
+        svgSrc: {
+            baseState: string,
+            activeState: string,
+        }
+    },
+    muteButton: {
+        svgSrc: {
+            baseState: string,
+            activeState: string,
+        }
+    },
+    shareButton: {
+        svgSrc: {
+            baseState: string,
+        }
+    }
 };
 
 declare class AppearanceManager {

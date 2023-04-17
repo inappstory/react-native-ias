@@ -158,7 +158,7 @@ export const createAppearanceManager = () => {
 
 3. Register StoriesList component at Screen with stories
 
-```ts
+```tsx
 import {createAppearanceManager, createStoryManager} from "../StoriesConfig";
 import {StoriesList, useIas} from "react-native-ias";
 
@@ -188,7 +188,7 @@ Since v0.2.24
 Use the key for seeing Stories with status "Moderation"
 The value of the key is stored in the IAS [console](https://console.inappstory.com)
 
-```ts
+```tsx
 import {createAppearanceManager, createStoryManager} from "../StoriesConfig";
 import {StoriesList, useIas} from "react-native-ias";
 
@@ -199,7 +199,7 @@ export function StoryListScreen() {
 ```
 
 ### Example - component with skeleton loader for StoriesList
-```ts
+```tsx
 import {StyleSheet, View, Animated} from "react-native";
 import React, {useEffect, useRef, useState} from "react";
 import {createAppearanceManager, createStoryManager} from "../StoriesConfig";
@@ -339,6 +339,44 @@ const AnimatedStoryList = ({loadStatus, feedId, onLoadEnd}: {loadStatus: LoadSta
         </Animated.View>
     );
 };
+
+```
+
+
+### Example - reload API for StoriesList
+Since v0.2.28
+A full-fledged example with skeleton animation and PTR - in [the demo project](https://github.com/inappstory/RNIasDemo)
+```tsx
+import {createAppearanceManager, createStoryManager} from "../StoriesConfig";
+import {StoriesList, useIas, StoriesListViewModel} from "react-native-ias";
+
+export function StoryListScreen() {
+    const {storyManager, appearanceManager} = useIas(createStoryManager, createAppearanceManager);
+
+    const storiesListViewModel = useRef<StoriesListViewModel>(undefined);
+    const viewModelExporter = useCallback(viewModel => (storiesListViewModel.current = viewModel), []);
+    
+    return (
+        <View>
+            <StoriesList storyManager={storyManager} appearanceManager={appearanceManager} feed="default" viewModelExporter={viewModelExporter} />
+            <View style={{ height: 0 }} />
+            <Button
+                containerStyle={{
+                    padding: 10,
+                    height: "auto",
+                    width: "100%",
+                    overflow: "hidden",
+                    borderRadius: 6,
+                    backgroundColor: "#0c62f3",
+                }}
+                style={{ fontSize: 18, color: "white" }}
+                onPress={() => storiesListViewModel.current.reload()}>
+                Reload StoriesList
+            </Button>
+        <View/>
+    );
+}
+
 
 ```
 

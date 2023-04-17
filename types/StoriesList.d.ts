@@ -1,14 +1,17 @@
 import * as React from 'react';
 import {AppearanceManager, StoryManager} from "../index";
 import {Option} from "./types";
+import StoriesListViewModel from "./StoriesListViewModel";
 
 
 declare type Props = {
     storyManager: StoryManager,
     appearanceManager: AppearanceManager,
     feed?: string,
+    onLoadStart?: () => void,
     onLoadEnd?: (listLoadStatus: ListLoadStatus) => void,
     testKey?: string,
+    viewModelExporter?: (viewModel: StoriesListViewModel) => void,
 };
 
 export type ListLoadStatus = {
@@ -23,5 +26,5 @@ export type ListLoadStatus = {
     }>
 };
 
-export default function StoriesList({storyManager, appearanceManager}: Props): React.ReactElement;
+export default function StoriesList(props: Props): React.ReactElement;
 export {};

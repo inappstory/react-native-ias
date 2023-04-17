@@ -12,3 +12,5 @@ export {
 } from './types/AppearanceManager';
 
 export {Option} from "./types/types";
+
+export {default as StoriesListViewModel} from './types/StoriesListViewModel';

@@ -9,6 +9,7 @@ export declare type StoryManagerConfig = {
   tags?: Option<Array<string>>;
   placeholders?: Option<Dict<string>>;
   lang?: string;
+  defaultMuted?: boolean;
 };
 
 export declare type OnboardingLoadStatus = {
@@ -48,6 +49,9 @@ declare class StoryManager extends EventEmitter {
   setUserId(userId: string | number): void;
   setPlaceholders(placeholders: Dict<string>): void;
   setLang(lang: string): void;
+
+  set soundOn(value: boolean);
+  get soundOn(): boolean;
 
 
 }

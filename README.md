@@ -56,16 +56,16 @@ export default function App() {
 
 2. Write sdk config (in file StoriesConfig for example)
 
-```js
+```ts
 import {
     AppearanceManager,
     StoriesListCardViewVariant,
     StoryManager,
     StoryReaderCloseButtonPosition, StoryReaderSwipeStyle,
-    AndroidDefaultWindowSoftInputMode
+    StoryManagerConfig
 } from "react-native-ias";
 
-const storyManagerConfig = {
+const storyManagerConfig: StoryManagerConfig = {
     apiKey: "{projectToken}",
     userId: "123456",
     tags: [],
@@ -73,16 +73,10 @@ const storyManagerConfig = {
         user: "Guest"
     },
     lang: "en",
+    defaultMuted: true
 };
 
-export const createStoryManager = () => {
-    const manager = new StoryManager(storyManagerConfig);
-    // set default windowSoftInputMode (valid only on Android) for App
-    // SDK changes windowSoftInputMode to work with keyboard
-    // and will set windowSoftInputMode back to androidDefaultWindowSoftInputMode when closing the story reader
-    manager.androidDefaultWindowSoftInputMode = AndroidDefaultWindowSoftInputMode.AdjustResize;
-    return manager;
-};
+export const createStoryManager = () => new StoryManager(storyManagerConfig);
 
 export const createAppearanceManager = () => {
     return new AppearanceManager().setCommonOptions({
@@ -777,6 +771,151 @@ appearanceManager.setStoryReaderOptions({
 ```
 
 
+## StoryReader - API for sound control
+Since v0.2.29
+
+### Turn on / off sound by default
+
+Use StoryManagerConfig.defaultMuted flag (default true) for control this behaviour
+
+Example
+```ts
+import {
+    StoryManager,
+    StoryManagerConfig
+} from "react-native-ias";
+
+const storyManagerConfig: StoryManagerConfig = {
+    apiKey: "{projectToken}",
+    userId: "123456",
+    tags: [],
+    placeholders: {
+        user: "Guest"
+    },
+    lang: "en",
+    defaultMuted: true
+};
+
+export const createStoryManager = () => new StoryManager(storyManagerConfig);
+```
+
+### Turning sound on / off at runtime
+
+```ts
+// Setter
+storyManager.soundOn = true;
+
+// Getter 
+let isSoundOn = storyManager.soundOn;
+
+// Sound on / off changed by user (from StoryReader UI)
+storyManager.on("soundOnChangedByUser", ({ value }) => isSoundOn = value)
+```
+
+### Full example with sound control API
+```tsx
+
+import { NavigationProp, RouteProp, useFocusEffect } from "@react-navigation/native";
+import { Alert, BackHandler, SafeAreaView, StatusBar, StyleSheet, useColorScheme, View } from "react-native";
+import React, { useCallback, useRef, useState } from "react";
+import Button from "react-native-button";
+
+import { Colors } from "react-native/Libraries/NewAppScreen";
+import { StoriesListViewModel, useIas } from "react-native-ias";
+
+import { createAppearanceManager, createStoryManager } from "../StoriesConfig";
+
+
+export function MainScreen({ navigation, route }: { navigation: NavigationProp<any>; route: RouteProp<any> }) {
+    useFocusEffect(
+        useCallback(() => {
+            const backAction = () => {
+                Alert.alert("Hold on!", "Are you sure you want to go back?", [
+                    {
+                        text: "Cancel",
+                        onPress: () => null,
+                        style: "cancel",
+                    },
+                    { text: "YES", onPress: () => BackHandler.exitApp() },
+                ]);
+                return true;
+            };
+
+            BackHandler.addEventListener("hardwareBackPress", backAction);
+            return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
+        }, []),
+    );
+
+    const isDarkMode = useColorScheme() === "dark";
+
+    const backgroundStyle = {
+        backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    };
+
+    const { storyManager, appearanceManager } = useIas(createStoryManager, createAppearanceManager);
+
+    // state for button in APP UI
+    const [soundOnUI, setSoundOnUI] = useState(storyManager.soundOn);
+    // event from SDK
+    useFocusEffect(
+        useCallback(() => {
+            storyManager.on("soundOnChangedByUser", ({ value }) => setSoundOnUI(value));
+            return () => storyManager.off("soundOnChangedByUser");
+        }, [storyManager]),
+    );
+
+    return (
+        <SafeAreaView style={[styles.container, backgroundStyle]}>
+            <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
+
+            <View style={styles.view}>
+                <StoriesList
+                    storyManager={storyManager}
+                    appearanceManager={appearanceManager}
+                    feed="default"
+                />
+                <View style={{ height: 0 }} />
+                <Button
+                    containerStyle={styles.buttonContainer}
+                    style={styles.button}
+                    onPress={() => {
+                        // source of truth - SDK
+                        storyManager.soundOn = !storyManager.soundOn;
+                        setSoundOnUI(storyManager.soundOn);
+                    }}>
+                    Sound state is {soundOnUI ? "On" : "Off"}
+                </Button>
+                <View style={{ height: 32 }} />
+            </View>
+        </SafeAreaView>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        paddingTop: StatusBar.currentHeight,
+    },
+    view: {
+        marginHorizontal: 20,
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    button: { fontSize: 18, color: "white" },
+    buttonContainer: {
+        padding: 10,
+        height: "auto",
+        width: "100%",
+        overflow: "hidden",
+        borderRadius: 6,
+        backgroundColor: "#0c62f3",
+    }
+});
+```
+
+
+
 ## Events
 
 You can subscribe to events after creating the widget instance
@@ -789,17 +928,18 @@ const {storyManager} = useIas(createStoryManager, createAppearanceManager);
 storyManager.on('clickOnStory', payload => console.log(payload));
 ```
 
-| Name                | Payload                                                        | Description                                                         |
-|---------------------|----------------------------------------------------------------|---------------------------------------------------------------------|
-| clickOnStory        | {id: number, index: number, isDeeplink: boolean, url?: string} | Click on story card from slider list                                |
-| clickOnFavoriteCell | {feed: string }                                                | Click on story favorite card from slider list                       |
-| showStory           | {id: number }                                                  | Show story (from slider or reader)                                  |
-| closeStory          | {id: number }                                                  | Close story (from reader - transition from story or click on close) |
-| showSlide           | {id: number, index: number }                                   | Show slide                                                          |
-| clickOnButton       | {id: number, index: number, url: string }                      | Click on button with external link                                  |
-| likeStory           | {id: number, value: boolean }                                  | Click to set (value=true) or unset (value=false) story like         |
-| dislikeStory        | {id: number, value: boolean }                                  | Click to set (value=true) or unset (value=false) story dislike      |
-| favoriteStory       | {id: number, value: boolean }                                  | Click to set (value=true) or unset (value=false) story dislike      |
-| shareStory          | {id: number }                                                  | Click on story sharing                                              |
-| shareStoryWithPath  | {id: number, url: string }                                     | Event after successful creation of the sharing path                 |
+| Name                  | Payload                                                        | Description                                                         |
+|-----------------------|----------------------------------------------------------------|---------------------------------------------------------------------|
+| clickOnStory          | {id: number, index: number, isDeeplink: boolean, url?: string} | Click on story card from slider list                                |
+| clickOnFavoriteCell   | {feed: string}                                                 | Click on story favorite card from slider list                       |
+| showStory             | {id: number}                                                   | Show story (from slider or reader)                                  |
+| closeStory            | {id: number}                                                   | Close story (from reader - transition from story or click on close) |
+| showSlide             | {id: number, index: number}                                    | Show slide                                                          |
+| clickOnButton         | {id: number, index: number, url: string}                       | Click on button with external link                                  |
+| likeStory             | {id: number, value: boolean}                                   | Click to set (value=true) or unset (value=false) story like         |
+| dislikeStory          | {id: number, value: boolean}                                   | Click to set (value=true) or unset (value=false) story dislike      |
+| favoriteStory         | {id: number, value: boolean}                                   | Click to set (value=true) or unset (value=false) story dislike      |
+| shareStory            | {id: number}                                                   | Click on story sharing                                              |
+| shareStoryWithPath    | {id: number, url: string}                                      | Event after successful creation of the sharing path                 |
+| changeSoundOnInternal | {value: boolean}                                               | Event after the user turned the sound on or off in the story        |
 

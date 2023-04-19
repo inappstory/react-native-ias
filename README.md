@@ -914,6 +914,27 @@ const styles = StyleSheet.create({
 });
 ```
 
+## API Limits
+UserId max length is 255 (in bytes)
+Tags max length is 4000 (in bytes, for comma concatenated string)
+
+If the limits are exceeded, the SDK will issue an error message to the console and will not perform network requests
+
+SDK use below function to calculate string length in bytes
+
+```ts
+function byteLength(str: string) {
+    // returns the byte length of an utf8 string
+    let s = str.length;
+    for (let i=str.length-1; i>=0; i--) {
+        const code = str.charCodeAt(i);
+        if (code > 0x7f && code <= 0x7ff) s++;
+        else if (code > 0x7ff && code <= 0xffff) s+=2;
+        if (code >= 0xDC00 && code <= 0xDFFF) i--;
+    }
+    return s;
+}
+```
 
 
 ## Events

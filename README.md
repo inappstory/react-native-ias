@@ -374,6 +374,12 @@ export function StoryListScreen() {
 
 ```
 
+### StoriesList dimensions
+By default, (if appearanceManager.storiesListOptions.layout.height === 0) container height is calculated automatically.\
+height = storiesListOptions.card.height + storiesListOptions.topPadding + storiesListOptions.bottomPadding\
+If storiesListOptions.card.title.position === CARD_OUTSIDE_TOP or storiesListOptions.card.title.position === CARD_OUTSIDE_BOTTOM\
+then height += title.verticalPadding (parsed from storiesListOptions.card.title.padding) + storiesListOptions.card.title.lineClamp (3 by default) * title.lineHeight (parsed from storiesListOptions.card.title.font)
+
 
 ## StoryManager public methods
 ```ts

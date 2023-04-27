@@ -1,6 +1,10 @@
 import { Option } from "./types";
 import { ListLoadStatus } from "./StoriesList";
 
+export type StoriesListDimensions = {
+    totalHeight: number;
+}
+
 declare class StoriesListViewModel {
 
     get feedSlug(): string;
@@ -14,6 +18,8 @@ declare class StoriesListViewModel {
     get viewOptions(): Record<any, any>;
 
     reload(): Promise<ListLoadStatus>;
+
+    // get storiesListDimensions(): StoriesListDimensions;
 
 }
 

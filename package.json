@@ -1,11 +1,13 @@
 {
   "name": "react-native-ias",
-  "version": "0.2.30",
+  "version": "0.3.0",
   "description": "IAS SDK for react native",
   "main": "react-native-ias.cjs.js",
   "module": "react-native-ias.mjs",
   "types": "index.d.ts",
   "dependencies": {
+    "css-font-parser": "^2.0.0",
+    "parse-css-sides": "^3.0.1",
     "effector": "^22.1.2"
   },
   "peerDependencies": {

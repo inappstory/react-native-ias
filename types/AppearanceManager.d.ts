@@ -11,6 +11,7 @@ export declare type StoriesListOptions = Partial<{
   card: StoriesListCardOptions;
   favoriteCard: StoriesListFavoriteCardOptions;
   layout: Partial<{
+      storiesListInnerHeight: number | null;
     height: number;
     backgroundColor: string;
     sliderAlign: StoriesListSliderAlign;

@@ -52,7 +52,8 @@ declare class StoryManager extends EventEmitter {
 
   set soundOn(value: boolean);
   get soundOn(): boolean;
-
+  get sdkVersionName(): string;
+  get sdkVersionCode(): number;
 
 }
 

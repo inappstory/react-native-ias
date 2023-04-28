@@ -435,6 +435,10 @@ interface StoryManager {
   on<K extends keyof EventPayloadDataNameMap>(event: K, listener: (payload: StoryManagerCallbackPayload<EventPayloadDataNameMap[K]>) => void): StoryManager;
   once<K extends keyof EventPayloadDataNameMap>(event: K, listener: (payload: StoryManagerCallbackPayload<EventPayloadDataNameMap[K]>) => void): StoryManager;
 
+  // info
+  get sdkVersionName(): string; // since v0.3.1, return "0.3.1"  
+  get sdkVersionCode(): number; // since v0.3.1, return 301
+  
 }
 
 ```

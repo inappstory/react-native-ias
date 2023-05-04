@@ -141,6 +141,7 @@ export const createAppearanceManager = () => {
     }).setStoryReaderOptions({
         closeButtonPosition: StoryReaderCloseButtonPosition.RIGHT,
         scrollStyle: StoryReaderSwipeStyle.FLAT,
+        slideBorderRadius: 5,
     }).setStoryFavoriteReaderOptions({
         title: {
             content: 'Favorite'
@@ -667,18 +668,19 @@ By default, controls are round buttons with arrow icons at the edges of the slid
 
 ## AppearanceManager - StoryReaderOptions
 
-| Variable                   | Type    | Description                                                                  |
-|----------------------------|---------|------------------------------------------------------------------------------|
-| closeButtonPosition        | string  | Close button position, one of `left`, `right`                                |
-| scrollStyle                | string  | Stories viewPager scroll style, one of `flat`, `cover`, `cube`               |
-| loader.default.color       | string  | Default loader primary color. Valid css color                                |
-| loader.default.accentColor | string  | Default loader accent color. Valid css color                                 |
-| closeButton                | object  | [Overload](#close-button-options) close button svg icon. Since v0.2.25       |
-| likeButton                 | object  | [Overload](#like-button-options) like button svg icon. Since v0.2.25         |
-| dislikeButton              | object  | [Overload](#dislike-button-options) dislike button svg icon. Since v0.2.25   |
-| favoriteButton             | object  | [Overload](#favorite-button-options) favorite button svg icon. Since v0.2.25 |
-| muteButton                 | object  | [Overload](#mute-button-options) mute button svg icon. Since v0.2.25         |
-| shareButton                | object  | [Overload](#share-button-options) share button svg icon. Since v0.2.25       |
+| Variable                   | Type   | Description                                                                  |
+|----------------------------|--------|------------------------------------------------------------------------------|
+| closeButtonPosition        | string | Close button position, one of `left`, `right`                                |
+| scrollStyle                | string | Stories viewPager scroll style, one of `flat`, `cover`, `cube`               |
+| loader.default.color       | string | Default loader primary color. Valid css color                                |
+| loader.default.accentColor | string | Default loader accent color. Valid css color                                 |
+| closeButton                | object | [Overload](#close-button-options) close button svg icon. Since v0.2.25       |
+| likeButton                 | object | [Overload](#like-button-options) like button svg icon. Since v0.2.25         |
+| dislikeButton              | object | [Overload](#dislike-button-options) dislike button svg icon. Since v0.2.25   |
+| favoriteButton             | object | [Overload](#favorite-button-options) favorite button svg icon. Since v0.2.25 |
+| muteButton                 | object | [Overload](#mute-button-options) mute button svg icon. Since v0.2.25         |
+| shareButton                | object | [Overload](#share-button-options) share button svg icon. Since v0.2.25       |
+| slideBorderRadius          | number | Slide border radius, px. Default value - 0. Since v0.3.2                     |
 
 ### Close button options
 

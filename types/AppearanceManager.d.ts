@@ -178,6 +178,7 @@ export declare type StoryReaderOptions = Partial<{
     }>,
     custom: Option<string>
   }>,
+    slideBorderRadius: number,
   recycleStoriesList: boolean,
   closeOnLastSlideByTimer: boolean,
     closeButton: {

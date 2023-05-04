@@ -46,7 +46,7 @@ declare class StoryManager extends EventEmitter {
   set androidDefaultWindowSoftInputMode(mode: AndroidWindowSoftInputMode);
 
   setTags(tags: Array<string>): void;
-  setUserId(userId: string | number): void;
+  setUserId(userId: string | number | null): void;
   setPlaceholders(placeholders: Dict<string>): void;
   setLang(lang: string): void;
 

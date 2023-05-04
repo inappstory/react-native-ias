@@ -422,7 +422,7 @@ interface StoryManager {
   (config: StoryManagerConfig, callbacks?: StoryManagerCallbacks): StoryManager;
   getInstance(): StoryManager; // static, throw Error if StoryManager constructor not called
   setTags(tags: Array<string>): void;
-  setUserId(userId: string | number): void;
+  setUserId(userId: string | number | null): void;
   setLang(lang: string): void;
   setPlaceholders(placeholders: Dict<string>): void;
   showStory(id: number | string, appearanceManager: AppearanceManager): Promise<{loaded: boolean}>;

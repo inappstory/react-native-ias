@@ -3,6 +3,8 @@ import { Option } from "./types";
 export declare type AppearanceCommonOptions = Partial<{
   hasFavorite: boolean;
   hasLike: boolean;
+  hasLikeButton: boolean;
+  hasDislikeButton: boolean;
   hasShare: boolean;
 }>;
 

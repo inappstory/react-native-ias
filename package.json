@@ -1,6 +1,6 @@
 {
   "name": "react-native-ias",
-  "version": "0.3.10",
+  "version": "0.3.11",
   "description": "IAS SDK for react native",
   "main": "react-native-ias.cjs.js",
   "module": "react-native-ias.mjs",

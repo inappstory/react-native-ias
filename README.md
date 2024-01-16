@@ -9,4 +9,4 @@ SDK for [InAppStory](https://inappstory.com)
 
 # Stories Widget
 
-For more information you can read [full SDK guide](https://docs.inappstory.com/sdk-guides/react-native/how-to-get-started.htm)
+For more information you can read [full SDK guide](https://docs.inappstory.com/sdk-guides/react-native/how-to-get-started.html)
